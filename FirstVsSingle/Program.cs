@@ -21,21 +21,26 @@ namespace FirstVsSingle
                     x.Address1,
                 }).ToList();
                 var s = new Stopwatch();
-                s.Start();
-                foreach(var item in comps)
+                void test() 
                 {
-                    var comp = ctxOB.companies.Single(x => x.Name.Equals(item.Name) && x.Role.Equals(item.Role) && x.Address1.Equals(item.Address1));
+                    s.Start();
+                    foreach(var item in comps)
+                    {
+                        var comp = ctxOB.companies.Single(x => x.Name.Equals(item.Name) && x.Role.Equals(item.Role) && x.Address1.Equals(item.Address1));
+                    }
+                    s.Stop();
+                    Console.WriteLine("Single " + s.ElapsedMilliseconds);
+                    s.Reset();
+                    s.Start();
+                    foreach (var item in comps)
+                    {
+                        var comp = ctxOB.companies.First(x => x.Name.Equals(item.Name) && x.Role.Equals(item.Role) && x.Address1.Equals(item.Address1));
+                    }
+                    s.Stop();
+                    Console.WriteLine("First  " + s.ElapsedMilliseconds);
+                    Console.WriteLine();
                 }
-                s.Stop();
-                Console.WriteLine("Single " + s.ElapsedMilliseconds);
-                s.Reset();
-                s.Start();
-                foreach (var item in comps)
-                {
-                    var comp = ctxOB.companies.First(x => x.Name.Equals(item.Name) && x.Role.Equals(item.Role) && x.Address1.Equals(item.Address1));
-                }
-                s.Stop();
-                Console.WriteLine("First  " + s.ElapsedMilliseconds);
+                for(var i = 0; i < 50; ++i) test();
                 Console.ReadKey();
             }
         }
